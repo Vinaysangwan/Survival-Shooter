@@ -1,13 +1,15 @@
 #include "pch.h"
 #include "Display.h"
 
+#include "Logger.h"
+
 Display::Display(const char *title, int width, int height, bool isResizable)
   : m_Width(width), m_Height(height)
 {
   // Init GLfw
   if (!glfwInit())
   {
-    std::cerr<<"Falied to Init GLfw"<<std::endl;
+    LOG_ASSERT(false, "Failed to Init GLFW!");
   }
 
   // Window Hints
@@ -21,7 +23,7 @@ Display::Display(const char *title, int width, int height, bool isResizable)
   m_Window = glfwCreateWindow(width, height, title, nullptr, nullptr);
   if (!m_Window)
   {
-    std::cerr<<"Failed to Create Window"<<std::endl;
+    LOG_ASSERT(false, "Failed to Create Window");
   }
 
   // Set Window Pos
@@ -33,7 +35,7 @@ Display::Display(const char *title, int width, int height, bool isResizable)
   // Init GLAD
   if (!gladLoadGLLoader(GLADloadproc(glfwGetProcAddress)))
   {
-    std::cerr<<"Failed to Load Glad"<<std::endl;
+    LOG_ASSERT(false, "Failed to Load GLAD");
   }
 
   // OpenGL Viewport

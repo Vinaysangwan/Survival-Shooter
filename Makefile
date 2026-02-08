@@ -15,4 +15,4 @@ compile:
 	cmake --build build --config ${CONIFG}
 
 run:
-	./build/$(EXE)
+	./$(EXE)
