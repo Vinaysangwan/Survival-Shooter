@@ -2,8 +2,13 @@
 #include "Renderer.h"
 #include "toolbox/Utils.h"
 
-Renderer::Renderer()
+Renderer::Renderer(StaticShader &shader)
 {
+  CreateProjectionMatrix();
+
+  shader.Start();
+  shader.LoadProjectionMatrix(m_ProjectionMatrix);
+  shader.Stop();
 }
 
 Renderer::~Renderer()
@@ -13,7 +18,7 @@ Renderer::~Renderer()
 void Renderer::Prepare()
 {
   glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::Render(const Entity &entity, StaticShader &shader)
@@ -37,4 +42,14 @@ void Renderer::Render(const Entity &entity, StaticShader &shader)
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glBindVertexArray(0);
+}
+
+void Renderer::CreateProjectionMatrix()
+{
+  m_ProjectionMatrix = glm::perspective(
+    glm::radians(70.0f),
+    1280.0f / 720.0f,
+    0.1f,
+    1000.0f
+  );
 }

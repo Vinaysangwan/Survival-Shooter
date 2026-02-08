@@ -44,6 +44,7 @@ Display::Display(const char *title, int width, int height, bool isResizable)
   glViewport(0, 0, width, height);
 
   // gl Enables
+  glEnable(GL_DEPTH_TEST);
   glEnable(GL_FRAMEBUFFER_SRGB);
 
   // Show Window

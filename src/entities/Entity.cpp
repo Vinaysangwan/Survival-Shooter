@@ -16,6 +16,13 @@ void Entity::rotate(float rx, float ry, float rz)
   m_Rot.z += rz;
 }
 
+void Entity::move(float dx, float dy, float dz)
+{
+  m_Pos.x += dx;
+  m_Pos.y += dy;
+  m_Pos.z += dz;
+}
+
 const TexturedModel &Entity::GetModel() const
 {
   return m_Model;

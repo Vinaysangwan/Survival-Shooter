@@ -6,9 +6,15 @@
 class Renderer
 {
 public:
-  Renderer();
+  Renderer(StaticShader &shader);
   ~Renderer();
 
   void Prepare();
   void Render(const Entity &entity, StaticShader &shader);
+
+private:
+  void CreateProjectionMatrix();
+  
+private:
+  glm::mat4 m_ProjectionMatrix;  
 };

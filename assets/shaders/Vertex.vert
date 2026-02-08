@@ -9,10 +9,11 @@ layout (location = 0) out vec2 outTexCoords;
 
 // Uniforms
 uniform mat4 uTransformationMatrix;
+uniform mat4 uProjectionMatrix;
 
 void main()
 {
-  gl_Position = uTransformationMatrix * vec4(inPos, 1.0);
+  gl_Position = uProjectionMatrix * uTransformationMatrix * vec4(inPos, 1.0);
 
   outTexCoords = inTexCoords;
 }
