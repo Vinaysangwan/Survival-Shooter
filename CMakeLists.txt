@@ -15,7 +15,7 @@ set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT $
 add_subdirectory(src)
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE src/pch.h)
-target_include_directories(${PROJECT_NAME} PUBLIC src)
+target_include_directories(${PROJECT_NAME} PUBLIC src vendor)
 
 # -- GLFW -- #
 add_subdirectory(vendor/glfw)
@@ -25,6 +25,10 @@ target_link_libraries(${PROJECT_NAME} glfw)
 add_library(glad vendor/glad/src/glad.c)
 target_include_directories(glad PUBLIC vendor/glad/include)
 target_link_libraries(${PROJECT_NAME} glad)
+
+# -- GLM -- #
+add_subdirectory(vendor/glm)
+target_link_libraries(${PROJECT_NAME} glm)
 
 # -- OpenGL -- #
 find_package(OpenGL REQUIRED)

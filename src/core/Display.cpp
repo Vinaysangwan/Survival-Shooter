@@ -26,6 +26,8 @@ Display::Display(const char *title, int width, int height, bool isResizable)
     LOG_ASSERT(false, "Failed to Create Window");
   }
 
+  m_LastTime = glfwGetTime();
+
   // Set Window Pos
   const GLFWvidmode* vdMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
   glfwSetWindowPos(m_Window, (vdMode->width - width) / 2, (vdMode->height - height + 40) / 2);
@@ -41,6 +43,9 @@ Display::Display(const char *title, int width, int height, bool isResizable)
   // OpenGL Viewport
   glViewport(0, 0, width, height);
 
+  // gl Enables
+  glEnable(GL_FRAMEBUFFER_SRGB);
+
   // Show Window
   glfwShowWindow(m_Window);
 }
@@ -51,8 +56,14 @@ Display::~Display()
   glfwTerminate();
 }
 
-void Display::Update() const
+void Display::Update()
 {
+  double currentTime = glfwGetTime();
+  m_Delta = static_cast<float>(currentTime - m_LastTime);
+  m_LastTime = currentTime;
+
+  m_FrameCount++;
+  
   glfwPollEvents();
 }
 

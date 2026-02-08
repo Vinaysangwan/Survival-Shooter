@@ -1,9 +1,15 @@
 #pragma once
 
-#include <glad/glad.h>
+#include "textures/ModelTexture.h"
 
 struct RawModel
 {
-  GLuint vaoID;
+  unsigned int vaoID;
   int vertexCount;
+};
+
+struct TexturedModel
+{
+  RawModel rawModel;
+  ModelTexture texture;
 };

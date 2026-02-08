@@ -4,6 +4,8 @@ target_sources(${PROJECT_NAME} PRIVATE
   core/Display.cpp
   core/Logger.cpp
 
+  entities/Entity.cpp
+  
   models/loader.cpp
 
   renderer/Renderer.cpp

@@ -11,16 +11,24 @@ public:
   Display(const char *title, int width, int height, bool isResizable = false);
   ~Display();
 
-  void Update() const;
+  void Update();
   void SwapBuffers() const;
 
-  inline bool IsRunning() const { return !glfwWindowShouldClose(m_Window); }
-
   inline void SetVsync(bool vSync) const { glfwSwapInterval(vSync ? 1 : 0); }
+
+  inline bool IsRunning() const { return !glfwWindowShouldClose(m_Window); }
+  inline float getDelta() const { return m_Delta; }
+  inline int getFrameCount() const { return m_FrameCount; }
 
 private:
   GLFWwindow *m_Window;
   
   int m_Height;
   int m_Width;
+
+  float m_Delta{};
+  double m_LastTime;
+
+  float m_FrameTimer{};
+  int m_FrameCount{};
 };

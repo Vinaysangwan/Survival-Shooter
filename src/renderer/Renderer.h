@@ -1,6 +1,7 @@
 #pragma once
 
-#include "models/Models.h"
+#include "entities/Entity.h"
+#include "shaders/StaticShader.h"
 
 class Renderer
 {
@@ -9,5 +10,5 @@ public:
   ~Renderer();
 
   void Prepare();
-  void Render(const RawModel &rawModel);
+  void Render(const Entity &entity, StaticShader &shader);
 };

@@ -37,6 +37,42 @@ void ShaderProgram::Stop()
   glUseProgram(0);
 }
 
+GLint ShaderProgram::GetUniformLocation(const char * name) const
+{
+  GLint location = glGetUniformLocation(m_ProgramID, name);
+  if (location < 0)
+  {
+    LOG_ASSERT(false, "Failed to Get Uniform Location: {}", name);
+  }
+  
+  return location;
+}
+
+void ShaderProgram::UniformLoadFloat(GLint location, float val)
+{
+  glUniform1f(location, val);
+}
+
+void ShaderProgram::UniformLoadInt(GLint location, int val)
+{
+  glUniform1i(location, val);
+}
+
+void ShaderProgram::UniformLoadBool(GLint location, bool val)
+{
+  glUniform1i(location, val ? 1 : 0);
+}
+
+void ShaderProgram::UniformLoadVec3(GLint location, const glm::vec3 &vec)
+{
+  glUniform1fv(location, 1, glm::value_ptr(vec));
+}
+
+void ShaderProgram::UniformLoadMat4(GLint location, const glm::mat4 &mat)
+{
+  glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+}
+
 GLuint ShaderProgram::CreateShader(const char *shaderFilePath, GLenum type)
 {
   GLuint shaderID = glCreateShader(type);

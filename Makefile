@@ -11,7 +11,6 @@ build:
 	cmake --build build --config ${CONIFG}
 
 compile: 
-	cmake -S . -B build -G Ninja
 	cmake --build build --config ${CONIFG}
 
 run:

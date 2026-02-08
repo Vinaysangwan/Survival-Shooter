@@ -10,14 +10,20 @@ public:
   Loader();
   ~Loader();
 
-  RawModel LoadToVAO(const std::vector<float> &vertices);
+  RawModel LoadToVAO(const std::vector<float> &vertices,
+                     const std::vector<float> &texCoords,
+                     const std::vector<unsigned int> &indices);
+
+  GLuint loadTextureID(const char* filePath);
 
 private:
   GLuint GenerateVAOID();
 
   void StoreDataInAttribList(int attribNumber, int coordinateSize, const std::vector<float> &data);
+  void StoreElementArrayData(const std::vector<unsigned int> &data);
 
 private:
   std::vector<GLuint> vaos;
   std::vector<GLuint> vbos;
+  std::vector<GLuint> textures;
 };
