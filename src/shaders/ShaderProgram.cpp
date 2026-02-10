@@ -65,7 +65,7 @@ void ShaderProgram::UniformLoadBool(GLint location, bool val)
 
 void ShaderProgram::UniformLoadVec3(GLint location, const glm::vec3 &vec)
 {
-  glUniform1fv(location, 1, glm::value_ptr(vec));
+  glUniform3fv(location, 1, glm::value_ptr(vec));
 }
 
 void ShaderProgram::UniformLoadMat4(GLint location, const glm::mat4 &mat)

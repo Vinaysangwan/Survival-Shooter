@@ -6,6 +6,7 @@ target_sources(${PROJECT_NAME} PRIVATE
 
   entities/Entity.cpp
   entities/Camera.cpp
+  entities/Light.cpp
 
   inputs/Input.cpp
   

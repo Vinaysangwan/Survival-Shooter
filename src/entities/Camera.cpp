@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "inputs/Input.h"
 
-constexpr const float SPEED = 0.02f;
+constexpr const float SPEED = 0.08f;
 
 Camera::Camera(const glm::vec3 &pos, float pitch, float yaw, float roll)
   : m_Pos(pos), m_Pitch(pitch), m_Yaw(yaw), m_Roll(roll)

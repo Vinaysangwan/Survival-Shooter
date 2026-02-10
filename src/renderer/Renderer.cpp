@@ -30,6 +30,7 @@ void Renderer::Render(const Entity &entity, StaticShader &shader)
   glBindVertexArray(rawModel.vaoID);
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(2);
   
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, texture.textureID);
@@ -41,6 +42,7 @@ void Renderer::Render(const Entity &entity, StaticShader &shader)
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(2);
   glBindVertexArray(0);
 }
 

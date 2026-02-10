@@ -12,7 +12,10 @@ public:
 
   RawModel LoadToVAO(const std::vector<float> &vertices,
                      const std::vector<float> &texCoords,
+                     const std::vector<float> &normals,
                      const std::vector<unsigned int> &indices);
+  
+  RawModel LoadModel(const std::string &path);
 
   GLuint loadTextureID(const char* filePath);
 

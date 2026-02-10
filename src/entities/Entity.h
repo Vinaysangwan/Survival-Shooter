@@ -11,7 +11,7 @@ public:
   ~Entity();
 
   void rotate(float rx, float ry, float rz);
-  void move(float dx, float dy, float dz);
+  void move();
   
   const TexturedModel &GetModel() const;
   const glm::vec3 &GetPosition() const;

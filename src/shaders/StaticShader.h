@@ -11,6 +11,7 @@ public:
   void LoadTransformationMatrix(const glm::mat4 &mat);
   void LoadProjectionMatrix(const glm::mat4 &mat);
   void LoadViewMatrix(const glm::mat4 &mat);
+  void LoadLightData(const glm::vec3 &lightPos, const glm::vec3 &lightColor);
   
 private:
   void GetAllUniformLocations() override;
@@ -19,4 +20,7 @@ private:
   GLint m_TransformationMatrixLocation;
   GLint m_ProjectionMatrixLocation;
   GLint m_ViewMatrixLocation;
+  
+  GLint m_LightPosLocation;
+  GLint m_LightColorLocation;
 };

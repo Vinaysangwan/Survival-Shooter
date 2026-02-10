@@ -4,6 +4,18 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+// #############################################################################
+//                           Constants
+// #############################################################################
+constexpr unsigned int ASSIMP_LOAD_FLAGS = aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices;
+
+// #############################################################################
+//                           Constants
+// #############################################################################
 Loader::Loader()
 {
 }
@@ -34,6 +46,7 @@ Loader::~Loader()
 
 RawModel Loader::LoadToVAO(const std::vector<float> &vertices,
                            const std::vector<float> &texCoords,
+                           const std::vector<float> &normals,
                            const std::vector<unsigned int> &indices)
 {
   GLuint vaoID = GenerateVAOID();
@@ -42,10 +55,76 @@ RawModel Loader::LoadToVAO(const std::vector<float> &vertices,
 
   StoreDataInAttribList(0, 3, vertices);
   StoreDataInAttribList(1, 2, texCoords);
+  StoreDataInAttribList(2, 3, normals);
 
   glBindVertexArray(0);
   
   return RawModel(vaoID, indices.size());
+}
+
+RawModel Loader::LoadModel(const std::string & path)
+{
+  Assimp::Importer importer;
+
+  const aiScene* scene = importer.ReadFile(path, ASSIMP_LOAD_FLAGS);
+
+  if (!scene || !scene->HasMeshes())
+  {
+    LOG_ASSERT(false, "Failed to Open the Model: {}", path);
+  }
+
+  aiMesh *mesh = scene->mMeshes[0];
+
+  std::vector<float> position;
+  std::vector<float> textureCoords;
+  std::vector<float> normals;
+  std::vector<unsigned int> indices;
+
+  // Vertices
+  for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+  {
+    position.push_back(mesh->mVertices[i].x);
+    position.push_back(mesh->mVertices[i].y);
+    position.push_back(mesh->mVertices[i].z);
+  
+    // Textured Coords
+    if (mesh->mTextureCoords[0])
+    {
+      textureCoords.push_back(mesh->mTextureCoords[0][i].x);
+      textureCoords.push_back(mesh->mTextureCoords[0][i].y);
+    }
+    else
+    {
+      textureCoords.push_back(0.0f);
+      textureCoords.push_back(0.0f);
+    }
+
+    // Normals
+    if (mesh->mNormals)
+    {
+      normals.push_back(mesh->mNormals[i].x);
+      normals.push_back(mesh->mNormals[i].y);
+      normals.push_back(mesh->mNormals[i].z);
+    }
+    else
+    {
+      normals.push_back(0.0f);
+      normals.push_back(1.0f);
+      normals.push_back(0.0f);
+    }
+  }
+
+  // Indices
+  for (unsigned int i = 0; i < mesh->mNumFaces; i++)
+  {
+    aiFace face = mesh->mFaces[i];
+    for (unsigned int j = 0; j < face.mNumIndices; j++)
+    {
+      indices.push_back(face.mIndices[j]);
+    }
+  }
+
+  return LoadToVAO(position, textureCoords, normals, indices);
 }
 
 GLuint Loader::loadTextureID(const char *filePath)

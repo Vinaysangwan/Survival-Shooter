@@ -18,6 +18,8 @@ void StaticShader::GetAllUniformLocations()
   m_TransformationMatrixLocation = GetUniformLocation("uTransformationMatrix");
   m_ProjectionMatrixLocation = GetUniformLocation("uProjectionMatrix");
   m_ViewMatrixLocation = GetUniformLocation("uViewMatrix");
+  m_LightPosLocation = GetUniformLocation("uLightPos");
+  m_LightColorLocation = GetUniformLocation("uLightColor");
 }
 
 void StaticShader::LoadTransformationMatrix(const glm::mat4 &mat)
@@ -33,4 +35,10 @@ void StaticShader::LoadProjectionMatrix(const glm::mat4 &mat)
 void StaticShader::LoadViewMatrix(const glm::mat4 &mat)
 {
   UniformLoadMat4(m_ViewMatrixLocation, mat);
+}
+
+void StaticShader::LoadLightData(const glm::vec3 &lightPos, const glm::vec3 &lightColor)
+{
+  UniformLoadVec3(m_LightPosLocation, lightPos);
+  UniformLoadVec3(m_LightColorLocation, lightColor);
 }

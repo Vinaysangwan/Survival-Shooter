@@ -6,6 +6,7 @@
 #include "toolbox/Utils.h"
 #include "entities/Camera.h"
 #include "inputs/Input.h"
+#include "entities/Light.h"
 
 int main()
 {
@@ -22,93 +23,19 @@ int main()
   // Init Renderer
   Renderer renderer(shader);
 
-  // Vertices
-  std::vector<float> vertices = {
-    -0.5f,0.5f,-0.5f,	
-    -0.5f,-0.5f,-0.5f,	
-    0.5f,-0.5f,-0.5f,	
-    0.5f,0.5f,-0.5f,		
-    
-    -0.5f,0.5f,0.5f,	
-    -0.5f,-0.5f,0.5f,	
-    0.5f,-0.5f,0.5f,	
-    0.5f,0.5f,0.5f,
-    
-    0.5f,0.5f,-0.5f,	
-    0.5f,-0.5f,-0.5f,	
-    0.5f,-0.5f,0.5f,	
-    0.5f,0.5f,0.5f,
-    
-    -0.5f,0.5f,-0.5f,	
-    -0.5f,-0.5f,-0.5f,	
-    -0.5f,-0.5f,0.5f,	
-    -0.5f,0.5f,0.5f,
-    
-    -0.5f,0.5f,0.5f,
-    -0.5f,0.5f,-0.5f,
-    0.5f,0.5f,-0.5f,
-    0.5f,0.5f,0.5f,
-    
-    -0.5f,-0.5f,0.5f,
-    -0.5f,-0.5f,-0.5f,
-    0.5f,-0.5f,-0.5f,
-    0.5f,-0.5f,0.5f
-  };
-
-  // Texture Coords
-  std::vector<float> textureCoords = {
-    0,0,
-    0,1,
-    1,1,
-    1,0,			
-    0,0,
-    0,1,
-    1,1,
-    1,0,			
-    0,0,
-    0,1,
-    1,1,
-    1,0,
-    0,0,
-    0,1,
-    1,1,
-    1,0,
-    0,0,
-    0,1,
-    1,1,
-    1,0,
-    0,0,
-    0,1,
-    1,1,
-    1,0
-  };
-
-  // Indices
-  std::vector<unsigned int> indices = {
-    0,1,3,	
-    3,1,2,	
-    4,5,7,
-    7,5,6,
-    8,9,11,
-    11,9,10,
-    12,13,15,
-    15,13,14,	
-    16,17,19,
-    19,17,18,
-    20,21,23,
-    23,21,22
-  };
-  
   // Init Models
-  RawModel rawModel = loader.LoadToVAO(vertices, textureCoords, indices);
-  ModelTexture texture = ModelTexture{loader.loadTextureID("assets/textures/Ship.png")};
+  RawModel rawModel = loader.LoadModel("assets/textures/stall.obj");
+  ModelTexture texture = ModelTexture{loader.loadTextureID("assets/textures/stallTexture.png")};
   TexturedModel model = TexturedModel{
     .rawModel = rawModel,
     .texture = texture
   };
 
   // Init Entity
-  Entity entity(model, glm::vec3(0, 0, -2), glm::vec3(0), 1);  
+  Entity entity(model, glm::vec3(0, 0, -20), glm::vec3(0), 1);  
+
+  // Init Light
+  Light light(glm::vec3(0, 20, -5), glm::vec3(1, 1, 1));
 
   // Init Camera
   Camera camera(glm::vec3(0, 0, 0), 0, 0, 0);
@@ -122,11 +49,12 @@ int main()
       display.close();
     }
 
-    entity.rotate(1, 1, 0);
     camera.move();
+    entity.move();
 
     renderer.Prepare();
     shader.Start();
+    shader.LoadLightData(light.GetPosition(), light.GetColor());
     shader.LoadViewMatrix(ViewMatrix(camera.GetPosition(), camera.GetPitch(), camera.GetYaw(), camera.GetRoll()));
     renderer.Render(entity, shader);
     shader.Stop();

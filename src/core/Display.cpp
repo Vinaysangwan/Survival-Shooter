@@ -46,6 +46,8 @@ Display::Display(const char *title, int width, int height, bool isResizable)
   // gl Enables
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_FRAMEBUFFER_SRGB);
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
 
   // GLFW Callbacks
   glfwSetKeyCallback(m_Window, KeyCallback);
