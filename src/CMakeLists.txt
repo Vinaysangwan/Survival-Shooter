@@ -5,8 +5,11 @@ target_sources(${PROJECT_NAME} PRIVATE
   core/Logger.cpp
 
   entities/Entity.cpp
+  entities/Camera.cpp
+
+  inputs/Input.cpp
   
-  models/loader.cpp
+  models/Loader.cpp
 
   renderer/Renderer.cpp
 

@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "core/Display.h"
 #include "core/Logger.h"
-#include "models/loader.h"
+#include "models/Loader.h"
 #include "renderer/Renderer.h"
 #include "toolbox/Utils.h"
+#include "entities/Camera.h"
+#include "inputs/Input.h"
 
 int main()
 {
@@ -108,15 +110,24 @@ int main()
   // Init Entity
   Entity entity(model, glm::vec3(0, 0, -2), glm::vec3(0), 1);  
 
+  // Init Camera
+  Camera camera(glm::vec3(0, 0, 0), 0, 0, 0);
+
   // Main Game Loop
   while(display.IsRunning())
   {
     display.Update();
+    if (KeyDown(GLFW_KEY_ESCAPE))
+    {
+      display.close();
+    }
 
     entity.rotate(1, 1, 0);
+    camera.move();
 
     renderer.Prepare();
     shader.Start();
+    shader.LoadViewMatrix(ViewMatrix(camera.GetPosition(), camera.GetPitch(), camera.GetYaw(), camera.GetRoll()));
     renderer.Render(entity, shader);
     shader.Stop();
 

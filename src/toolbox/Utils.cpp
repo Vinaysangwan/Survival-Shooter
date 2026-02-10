@@ -37,3 +37,17 @@ glm::mat4 TransformationMatrix(const glm::vec3 &pos, const glm::vec3 &rot, float
 
   return trans;
 }
+
+glm::mat4 ViewMatrix(const glm::vec3 &pos, float pitch, float yaw, float roll)
+{
+  glm::mat4 rotation = glm::yawPitchRoll(
+    glm::radians(yaw),
+    glm::radians(pitch),
+    glm::radians(roll)
+  );
+
+  glm::vec3 front = rotation * glm::vec4(0, 0, -1, 0);
+  glm::vec3 up = rotation * glm::vec4(0, 1, 0, 0);
+ 
+  return glm::lookAt(pos, pos + front, up);
+}

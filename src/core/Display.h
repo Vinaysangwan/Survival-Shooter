@@ -15,6 +15,7 @@ public:
   void SwapBuffers() const;
 
   inline void SetVsync(bool vSync) const { glfwSwapInterval(vSync ? 1 : 0); }
+  inline void close() const { glfwSetWindowShouldClose(m_Window, true); }
 
   inline bool IsRunning() const { return !glfwWindowShouldClose(m_Window); }
   inline float getDelta() const { return m_Delta; }

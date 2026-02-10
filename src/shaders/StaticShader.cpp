@@ -17,6 +17,7 @@ void StaticShader::GetAllUniformLocations()
 {
   m_TransformationMatrixLocation = GetUniformLocation("uTransformationMatrix");
   m_ProjectionMatrixLocation = GetUniformLocation("uProjectionMatrix");
+  m_ViewMatrixLocation = GetUniformLocation("uViewMatrix");
 }
 
 void StaticShader::LoadTransformationMatrix(const glm::mat4 &mat)
@@ -27,4 +28,9 @@ void StaticShader::LoadTransformationMatrix(const glm::mat4 &mat)
 void StaticShader::LoadProjectionMatrix(const glm::mat4 &mat)
 {
   UniformLoadMat4(m_ProjectionMatrixLocation, mat);
+}
+
+void StaticShader::LoadViewMatrix(const glm::mat4 &mat)
+{
+  UniformLoadMat4(m_ViewMatrixLocation, mat);
 }

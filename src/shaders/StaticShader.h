@@ -10,6 +10,7 @@ public:
 
   void LoadTransformationMatrix(const glm::mat4 &mat);
   void LoadProjectionMatrix(const glm::mat4 &mat);
+  void LoadViewMatrix(const glm::mat4 &mat);
   
 private:
   void GetAllUniformLocations() override;
@@ -17,4 +18,5 @@ private:
 private:
   GLint m_TransformationMatrixLocation;
   GLint m_ProjectionMatrixLocation;
+  GLint m_ViewMatrixLocation;
 };

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Display.h"
-
 #include "Logger.h"
+#include "inputs/Input.h"
 
 Display::Display(const char *title, int width, int height, bool isResizable)
   : m_Width(width), m_Height(height)
@@ -47,6 +47,9 @@ Display::Display(const char *title, int width, int height, bool isResizable)
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_FRAMEBUFFER_SRGB);
 
+  // GLFW Callbacks
+  glfwSetKeyCallback(m_Window, KeyCallback);
+  
   // Show Window
   glfwShowWindow(m_Window);
 }
@@ -71,4 +74,6 @@ void Display::Update()
 void Display::SwapBuffers() const
 {
   glfwSwapBuffers(m_Window);
+
+  KeyboardEndFrame();
 }

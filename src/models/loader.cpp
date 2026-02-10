@@ -1,4 +1,4 @@
-#include "loader.h"
+#include "Loader.h"
 #include "core/Logger.h"
 
 #define STB_IMAGE_IMPLEMENTATION
