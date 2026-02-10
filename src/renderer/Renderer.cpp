@@ -35,6 +35,8 @@ void Renderer::Render(const Entity &entity, StaticShader &shader)
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, texture.textureID);
 
+  shader.LoadSpecularData(texture.shineDamper, texture.reflectivity);
+  
   glm::mat4 transMat = TransformationMatrix(entity.GetPosition(), entity.GetRotation(), entity.GetScale());
   shader.LoadTransformationMatrix(transMat);
   

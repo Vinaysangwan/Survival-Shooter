@@ -9,6 +9,7 @@ layout (location = 2) in vec3 inNormal;
 layout (location = 0) out vec2 outTexCoords;
 layout (location = 1) out vec3 outSurfaceNormal;
 layout (location = 2) out vec3 outToLightVec;
+layout (location = 3) out vec3 outToCameraVec;
 
 // Uniforms
 uniform mat4 uTransformationMatrix;
@@ -24,4 +25,5 @@ void main()
   outTexCoords = inTexCoords;
   outSurfaceNormal = (uTransformationMatrix * vec4(inNormal, 0.0)).xyz;
   outToLightVec = uLightPos - worldPos.xyz;
+  outToCameraVec = vec3(inverse(uViewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPos.xyz;
 }

@@ -20,6 +20,8 @@ void StaticShader::GetAllUniformLocations()
   m_ViewMatrixLocation = GetUniformLocation("uViewMatrix");
   m_LightPosLocation = GetUniformLocation("uLightPos");
   m_LightColorLocation = GetUniformLocation("uLightColor");
+  m_ShineDamperLocation = GetUniformLocation("uShineDamper");
+  m_ReflectivityLocation = GetUniformLocation("uReflectivity");
 }
 
 void StaticShader::LoadTransformationMatrix(const glm::mat4 &mat)
@@ -41,4 +43,10 @@ void StaticShader::LoadLightData(const glm::vec3 &lightPos, const glm::vec3 &lig
 {
   UniformLoadVec3(m_LightPosLocation, lightPos);
   UniformLoadVec3(m_LightColorLocation, lightColor);
+}
+
+void StaticShader::LoadSpecularData(float shineDamper, float reflectivity)
+{
+  UniformLoadFloat(m_ShineDamperLocation, shineDamper);
+  UniformLoadFloat(m_ReflectivityLocation, reflectivity);
 }

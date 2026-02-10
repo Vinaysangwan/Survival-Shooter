@@ -24,8 +24,10 @@ int main()
   Renderer renderer(shader);
 
   // Init Models
-  RawModel rawModel = loader.LoadModel("assets/textures/stall.obj");
-  ModelTexture texture = ModelTexture{loader.loadTextureID("assets/textures/stallTexture.png")};
+  RawModel rawModel = loader.LoadModel("assets/textures/rifle.obj");
+  ModelTexture texture = ModelTexture{loader.loadTextureID("assets/textures/m_rifl.bmp")};
+  texture.shineDamper = 25.0f;
+  texture.reflectivity = 1.0f;
   TexturedModel model = TexturedModel{
     .rawModel = rawModel,
     .texture = texture
@@ -35,7 +37,7 @@ int main()
   Entity entity(model, glm::vec3(0, 0, -20), glm::vec3(0), 1);  
 
   // Init Light
-  Light light(glm::vec3(0, 20, -5), glm::vec3(1, 1, 1));
+  Light light(glm::vec3(0, 20, 0), glm::vec3(1, 1, 1));
 
   // Init Camera
   Camera camera(glm::vec3(0, 0, 0), 0, 0, 0);

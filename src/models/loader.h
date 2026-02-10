@@ -17,7 +17,7 @@ public:
   
   RawModel LoadModel(const std::string &path);
 
-  GLuint loadTextureID(const char* filePath);
+  GLuint loadTextureID(const char* filePath, int texWrap = GL_CLAMP_TO_BORDER, int texFilter = GL_LINEAR);
 
 private:
   GLuint GenerateVAOID();
