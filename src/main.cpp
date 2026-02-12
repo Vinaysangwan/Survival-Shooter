@@ -2,7 +2,7 @@
 #include "core/Display.h"
 #include "core/Logger.h"
 #include "models/Loader.h"
-#include "renderer/Renderer.h"
+#include "renderer/MasterRenderer.h"
 #include "toolbox/Utils.h"
 #include "entities/Camera.h"
 #include "inputs/Input.h"
@@ -12,16 +12,11 @@ int main()
 {
   // Init Display
   Display display("Survival Shooter", 1280, 720);
+  bool vSync = true;
   display.SetVsync(true);
 
   // Init Loader
   Loader loader;
-
-  // Init Shaders
-  StaticShader shader;
-
-  // Init Renderer
-  Renderer renderer(shader);
 
   // Init Models
   RawModel rawModel = loader.LoadModel("assets/textures/rifle.obj");
@@ -41,6 +36,9 @@ int main()
 
   // Init Camera
   Camera camera(glm::vec3(0, 0, 0), 0, 0, 0);
+  
+  // Init Renderer
+  MasterRenderer renderer;
 
   // Main Game Loop
   while(display.IsRunning())
@@ -50,17 +48,19 @@ int main()
     {
       display.close();
     }
+    if (KeyPressed(GLFW_KEY_V))
+    {
+      vSync = !vSync;
+      display.SetVsync(vSync);
+    }
 
     camera.move();
     entity.move();
 
-    renderer.Prepare();
-    shader.Start();
-    shader.LoadLightData(light.GetPosition(), light.GetColor());
-    shader.LoadViewMatrix(ViewMatrix(camera.GetPosition(), camera.GetPitch(), camera.GetYaw(), camera.GetRoll()));
-    renderer.Render(entity, shader);
-    shader.Stop();
+    renderer.AddEntity(entity);
+    renderer.Render(light, camera);
 
     display.SwapBuffers();
   }
 }
+

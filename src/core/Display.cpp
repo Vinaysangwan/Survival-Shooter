@@ -69,7 +69,15 @@ void Display::Update()
   m_LastTime = currentTime;
 
   m_FrameCount++;
-  
+  m_FrameTimer += m_Delta;
+  while (m_FrameTimer >= 1.0f)
+  {
+    LOG_INFO("FPS: {}", m_FrameCount);
+
+    m_FrameTimer -= 1.0f;
+    m_FrameCount = 0;
+  }
+
   glfwPollEvents();
 }
 

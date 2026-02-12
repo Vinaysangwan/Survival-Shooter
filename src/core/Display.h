@@ -14,7 +14,12 @@ public:
   void Update();
   void SwapBuffers() const;
 
-  inline void SetVsync(bool vSync) const { glfwSwapInterval(vSync ? 1 : 0); }
+  inline void SetVsync(bool vSync)
+  {
+    glfwMakeContextCurrent(m_Window);
+    glfwSwapInterval(vSync ? 1 : 0); 
+  }
+
   inline void close() const { glfwSetWindowShouldClose(m_Window, true); }
 
   inline bool IsRunning() const { return !glfwWindowShouldClose(m_Window); }

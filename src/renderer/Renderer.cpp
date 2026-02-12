@@ -3,6 +3,7 @@
 #include "toolbox/Utils.h"
 
 Renderer::Renderer(StaticShader &shader)
+  : m_Shader(shader)
 {
   CreateProjectionMatrix();
 
@@ -15,37 +16,51 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::Prepare()
+void Renderer::Render(const std::unordered_map<TexturedModel, std::vector<Entity>, TexturedModelHasher> &entities)
 {
-  glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  for (auto it = entities.begin(); it != entities.end(); it++)
+  {
+    const TexturedModel &model = it->first;    
+    LoadTexture(model);
+
+    for (const Entity& entity : it->second)
+    {
+      SetEntityData(entity);      
+      glDrawElements(GL_TRIANGLES, model.rawModel.vertexCount, GL_UNSIGNED_INT, nullptr);
+    }
+
+    UnLoadTexture();
+  }
 }
 
-void Renderer::Render(const Entity &entity, StaticShader &shader)
+void Renderer::LoadTexture(const TexturedModel &model)
 {
-  const TexturedModel &model = entity.GetModel();
   const RawModel &rawModel = model.rawModel;
   const ModelTexture &texture = model.texture;
-  
+
   glBindVertexArray(rawModel.vaoID);
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
   glEnableVertexAttribArray(2);
-  
+
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, texture.textureID);
 
-  shader.LoadSpecularData(texture.shineDamper, texture.reflectivity);
-  
-  glm::mat4 transMat = TransformationMatrix(entity.GetPosition(), entity.GetRotation(), entity.GetScale());
-  shader.LoadTransformationMatrix(transMat);
-  
-  glDrawElements(GL_TRIANGLES, rawModel.vertexCount, GL_UNSIGNED_INT, nullptr);
+  m_Shader.LoadSpecularData(texture.shineDamper, texture.reflectivity);
+}
 
+void Renderer::UnLoadTexture()
+{
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
   glBindVertexArray(0);
+}
+
+void Renderer::SetEntityData(const Entity& entity)
+{
+   glm::mat4 transMat = TransformationMatrix(entity.GetPosition(), entity.GetRotation(), entity.GetScale());
+  m_Shader.LoadTransformationMatrix(transMat);
 }
 
 void Renderer::CreateProjectionMatrix()
@@ -57,3 +72,4 @@ void Renderer::CreateProjectionMatrix()
     1000.0f
   );
 }
+

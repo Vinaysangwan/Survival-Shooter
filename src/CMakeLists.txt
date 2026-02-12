@@ -13,6 +13,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   models/Loader.cpp
 
   renderer/Renderer.cpp
+  renderer/MasterRenderer.cpp
 
   shaders/ShaderProgram.cpp
   shaders/StaticShader.cpp
